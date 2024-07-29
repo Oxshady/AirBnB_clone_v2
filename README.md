@@ -34,4 +34,4 @@ Follow these instructions to set up a local copy of the project for development 
 Clone the project repository from GitHub, which includes the main executable and its dependencies.
 
 ```bash
-git clone https://github.com/Oxshady/AirBnB_clone.git
+git clone https://github.com/Oxshady/AirBnB_clone_v2.git
