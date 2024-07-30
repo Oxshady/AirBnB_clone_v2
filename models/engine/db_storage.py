@@ -46,7 +46,7 @@ class DBStorage:
         for cl in classes:
             objs = self.__session.query(cl).all()
             for obj in objs:
-                key = f"{obj.__class__.__name__}.{obj.id}"
+                key = f"{cl.__name__}.{obj.id}"
                 objects.update({key:obj})
         return objects
     def new(self, obj):
