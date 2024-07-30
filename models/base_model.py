@@ -38,6 +38,11 @@ class BaseModel:
         storage.new(self)
         storage.save()
 
+    def delete(self):
+        """delete object from storage"""
+        from models import storage
+        storage.delete(self)
+
     def to_dict(self):
         """Convert instance into dict format"""
         dictionary = {}
