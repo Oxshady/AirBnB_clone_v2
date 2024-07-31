@@ -6,11 +6,25 @@ from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 from sqlalchemy import String, DateTime
 
 Base = declarative_base()
+
+
 class BaseModel:
     """A base class for all hbnb models"""
-    id: Mapped[str] = mapped_column(String(60), primary_key=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.utcnow())
-    updated_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.utcnow())
+    id: Mapped[str] = mapped_column(
+        String(60),
+        primary_key=True
+        )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        nullable=False,
+        default=datetime.utcnow()
+        )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        nullable=False,
+        default=datetime.utcnow()
+        )
+
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
@@ -52,7 +66,8 @@ class BaseModel:
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
         try:
-            del dictionary['_sa_instance_state']
+            if "_sa_instance_state" in dictionary.keys():
+                del dictionary['_sa_instance_state']
         except Exception:
             pass
         return dictionary
