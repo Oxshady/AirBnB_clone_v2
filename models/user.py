@@ -29,9 +29,9 @@ class User(BaseModel, Base):
         String(128),
         nullable=True
         )
-    from models.place import Place
-    places: Mapped[List['Place']] = relationship(
-        Place,
+    import models.place
+    places: Mapped[List['models.place.Place']] = relationship(
+        models.place.Place,
         backref="user",
         cascade='all, delete-orphan'
         )

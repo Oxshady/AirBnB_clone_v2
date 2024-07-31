@@ -59,9 +59,9 @@ class Place(BaseModel, Base):
         Float,
         nullable=True
         )
-    from models.place import Place
-    reviews: Mapped[List['Place']] = relationship(
-        Place,
+    from models.review import Review
+    reviews: Mapped[List['Review']] = relationship(
+        Review,
         backref='place',
         cascade='all, delete-orphan'
     )
