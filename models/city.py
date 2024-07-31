@@ -3,7 +3,7 @@
 from models.base_model import BaseModel
 from models.base_model import Base
 from sqlalchemy.orm import (
-    relationship, 
+    relationship,
     Mapped,
     mapped_column
     )
@@ -24,4 +24,8 @@ class City(BaseModel, Base):
         nullable=False
         )
     from models.place import Place
-    places: Mapped[List['Place']] = relationship(Place, backref='cities', cascade='all, delete-orphan')
+    places: Mapped[List['Place']] = relationship(
+        Place,
+        backref='cities',
+        cascade='all, delete-orphan'
+        )
