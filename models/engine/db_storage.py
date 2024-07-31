@@ -3,33 +3,39 @@
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine
 
-from os import getenv
 
-import models.city
+from os import getenv
+import models.base_model
+
+
 class DBStorage:
-    """db management"""
+    """Database storage management"""
     __engine = None
     __session = None
+
     def __init__(self):
-        """constructor"""
+        """Constructor"""
         name = getenv.get('HBNB_MYSQL_DB')
         host = getenv.get('HBNB_MYSQL_HOST')
         user = getenv.get('HBNB_MYSQL_USER')
         passw = getenv.get('HBNB_MYSQL_PWD')
         url = f"mysql+mysqldb://{user}:{passw}@{host}:3306/{name}"
-        self.__engine = create_engine("mysql://shadi:1@localhost:3306/hbtn_0e_0_usa",
-                                pool_pre_ping=True)
+        self.__engine = create_engine(
+            "mysql://shadi:1@localhost:3306/hbtn_0e_0_usa",
+            pool_pre_ping=True)
         if (getenv.get('HBNB_ENV') == "test"):
             base = models.base_model.Base
             base.metadata.drop_all(bind=self.__engine)
+
     def all(self, cls=None):
+        """Query all objects or objects of a specific class"""
         import models.base_model
         import models.city
         import models.state
         import models.user
         import models.amenity
         import models.place
-        import models.review        
+        import models.review
         classes = []
         objects = {}
         if not cls:
@@ -47,21 +53,25 @@ class DBStorage:
             objs = self.__session.query(cl).all()
             for obj in objs:
                 key = f"{cl.__name__}.{obj.id}"
-                objects.update({key:obj})
+                objects.update({key: obj})
         return objects
+
     def new(self, obj):
-        """add new object to current session"""
+        """Add new object to the current session"""
         if obj:
             self.__session.add(obj)
+
     def save(self):
-        """commit all changes and save the changes to the db"""
+        """Commit all changes and save them to the database"""
         self.__session.commit()
+
     def delete(self, obj=None):
-        """delete object from current user"""
+        """Delete object from the current session"""
         if obj:
             self.__session.delete(obj)
+
     def reload(self):
-        """create tables from created schema"""
+        """Create tables and set up the current database session"""
         from models.city import City
         from models.state import State
         from models.user import User
