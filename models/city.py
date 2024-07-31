@@ -2,8 +2,13 @@
 """ City Module for HBNB project """
 from models.base_model import BaseModel
 from models.base_model import Base
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import (
+    relationship, 
+    Mapped,
+    mapped_column
+    )
 from sqlalchemy import String, ForeignKey
+from typing import List
 
 
 class City(BaseModel, Base):
@@ -18,3 +23,5 @@ class City(BaseModel, Base):
         ForeignKey('states.id'),
         nullable=False
         )
+    from models.place import Place
+    places: Mapped[List['Place']] = relationship(Place, backref='cities', cascade='all, delete-orphan')
