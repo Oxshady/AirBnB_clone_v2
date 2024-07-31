@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """This module defines a class User"""
+from typing import Optional
 from models.base_model import BaseModel, Base
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
@@ -10,5 +11,5 @@ class User(BaseModel, Base):
     __tablename__ = "users"
     email: Mapped[str] = mapped_column(String(128), nullable=False)
     password: Mapped[str] = mapped_column(String(128), nullable=False)
-    first_name: Mapped[str] = mapped_column(String(128))
-    last_name: Mapped[str] = mapped_column(String(128))
+    first_name: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
+    last_name: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
