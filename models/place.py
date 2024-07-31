@@ -35,6 +35,8 @@ place_amenity = Table(
         nullable=False
         )
 )
+
+
 class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = "places"
@@ -107,12 +109,14 @@ class Place(BaseModel, Base):
             from models.amenity import Amenity as A
             data = storage.all(A)
             return [am for am in data.values() if am.id in self.amenity_ids]
+
         @amenities.setter
         def amenities(self, obj=None):
             """setter for file storage"""
             if obj.__class__.__name__ == "Amenity":
                 if obj:
                     self.amenity_ids.append(obj.id)
+
         @property
         def reviews(self):
             """getter for reviews"""
@@ -120,5 +124,7 @@ class Place(BaseModel, Base):
             from models.review import Review
             revs = models.storage.all(Review)
             return [
-            review for review in revs.values() if review.place_id == self.id
-            ]
+                review for review in revs.values() if (
+                    review.place_id == self.id
+                    )
+                ]

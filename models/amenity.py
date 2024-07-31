@@ -9,6 +9,7 @@ from sqlalchemy.orm import (
     relationship
     )
 
+
 class Amenity(BaseModel, Base):
     __tablename__ = "amenities"
     name: Mapped[str] = mapped_column(
