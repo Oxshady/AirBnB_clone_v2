@@ -71,7 +71,5 @@ class Place(BaseModel, Base):
         import models
         from models.review import Review
         revs = models.storage.all(Review)
-        print(revs)
-        print("hi")
         return [review for review in revs.values() if review.place_id == self.id]
 
