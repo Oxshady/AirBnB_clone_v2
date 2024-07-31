@@ -68,8 +68,8 @@ class Place(BaseModel, Base):
     amenity_ids = []
     @property
     def reviews(self):
+        """getter for reviews"""
         import models
         from models.review import Review
         revs = models.storage.all(Review)
         return [review for review in revs.values() if review.place_id == self.id]
-
