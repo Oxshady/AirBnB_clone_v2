@@ -35,3 +35,9 @@ class User(BaseModel, Base):
         backref="user",
         cascade='all, delete-orphan'
         )
+    from models.review import Review
+    reviews: Mapped[List['Review']] = relationship(
+        Review,
+        backref='user',
+        cascade='all, delete-orphan'
+    )
