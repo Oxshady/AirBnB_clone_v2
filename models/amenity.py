@@ -2,12 +2,12 @@
 """ State Module for HBNB project """
 from models.base_model import BaseModel, Base
 from sqlalchemy import String
+from typing import List
 from sqlalchemy.orm import (
     Mapped,
     mapped_column,
     relationship
     )
-
 
 class Amenity(BaseModel, Base):
     __tablename__ = "amenities"
@@ -15,5 +15,9 @@ class Amenity(BaseModel, Base):
         String(128),
         nullable=False
     )
-    from models.place_aminety import place_amenity
-    place_amenities = relationship('Place', secondary=place_amenity)
+    place_amenities = relationship(
+        'Place',
+        secondary="place_amenity",
+        viewonly=False,
+        back_populates="amenities"
+        )
