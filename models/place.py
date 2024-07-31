@@ -2,8 +2,12 @@
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
 from sqlalchemy import String, ForeignKey, Integer, Float
-from sqlalchemy.orm import Mapped, mapped_column
-from typing import Optional
+from sqlalchemy.orm import (
+    Mapped,
+    mapped_column,
+    relationship
+    )
+from typing import Optional, List
 
 
 class Place(BaseModel, Base):
@@ -55,4 +59,17 @@ class Place(BaseModel, Base):
         Float,
         nullable=True
         )
+    from models.place import Place
+    reviews: Mapped[List['Place']] = relationship(
+        Place,
+        backref='place',
+        cascade='all, delete-orphan'
+    )
     amenity_ids = []
+
+    @property
+    def reviews(self):
+        from models import storage
+        from models.review import Review
+        revs = storage.all(Review)
+        return [review for review in revs if review.place_id == self.id]
