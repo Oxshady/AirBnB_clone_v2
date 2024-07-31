@@ -13,10 +13,22 @@ from sqlalchemy.orm import (
 class User(BaseModel, Base):
     """This class defines a user by various attributes"""
     __tablename__ = "users"
-    email: Mapped[str] = mapped_column(String(128), nullable=False)
-    password: Mapped[str] = mapped_column(String(128), nullable=False)
-    first_name: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
-    last_name: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
+    email: Mapped[str] = mapped_column(
+        String(128),
+        nullable=False
+        )
+    password: Mapped[str] = mapped_column(
+        String(128),
+        nullable=False
+        )
+    first_name: Mapped[Optional[str]] = mapped_column(
+        String(128),
+        nullable=True
+        )
+    last_name: Mapped[Optional[str]] = mapped_column(
+        String(128),
+        nullable=True
+        )
     from models.place import Place
     places: Mapped[List['Place']] = relationship(
         Place,
