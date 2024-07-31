@@ -23,11 +23,11 @@ class User(BaseModel, Base):
         )
     first_name: Mapped[Optional[str]] = mapped_column(
         String(128),
-        nullable=False
+        nullable=True
         )
     last_name: Mapped[Optional[str]] = mapped_column(
         String(128),
-        nullable=False
+        nullable=True
         )
     import models.place
     places: Mapped[List['models.place.Place']] = relationship(
