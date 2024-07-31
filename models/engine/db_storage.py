@@ -15,45 +15,47 @@ class DBStorage:
 
     def __init__(self):
         """Constructor"""
-        name = getenv.get('HBNB_MYSQL_DB')
-        host = getenv.get('HBNB_MYSQL_HOST')
-        user = getenv.get('HBNB_MYSQL_USER')
-        passw = getenv.get('HBNB_MYSQL_PWD')
+        name = getenv('HBNB_MYSQL_DB')
+        host = getenv('HBNB_MYSQL_HOST')
+        user = getenv('HBNB_MYSQL_USER')
+        passw = getenv('HBNB_MYSQL_PWD')
         url = f"mysql+mysqldb://{user}:{passw}@{host}:3306/{name}"
         self.__engine = create_engine(
-            "mysql://shadi:1@localhost:3306/hbtn_0e_0_usa",
+            url=url,
             pool_pre_ping=True)
-        if (getenv.get('HBNB_ENV') == "test"):
+        if (getenv('HBNB_ENV') == "test"):
             base = models.base_model.Base
             base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
         """Query all objects or objects of a specific class"""
-        import models.base_model
-        import models.city
-        import models.state
-        import models.user
-        import models.amenity
-        import models.place
-        import models.review
         classes = []
         objects = {}
-        if not cls:
+        from models.state import State
+        from models.place import Place
+        from models.user import User
+        from models.review import Review
+        from models.amenity import Amenity
+        from models.city import City
+        if cls is None:
             classes = [
-                models.city.City,
-                models.state.State,
-                models.user.User,
-                models.review.Review,
-                models.amenity.Amenity,
-                models.place.Place
+                City,
+                Place,
+                User,
+                Review,
+                Amenity,
+                State
                 ]
         else:
             classes = [cls]
         for cl in classes:
-            objs = self.__session.query(cl).all()
-            for obj in objs:
-                key = f"{cl.__name__}.{obj.id}"
-                objects.update({key: obj})
+            try:
+                objs = self.__session.query(cl).all()
+                for obj in objs:
+                    key = f"{cl.__name__}.{obj.id}"
+                    objects[key] = obj
+            except Exception:
+                pass
         return objects
 
     def new(self, obj):
@@ -79,7 +81,7 @@ class DBStorage:
         from models.amenity import Amenity
         from models.place import Place
         base = models.base_model.Base
-        base.metadat.create_all(bind=self.__engine)
+        base.metadata.create_all(bind=self.__engine)
         session_fact = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory=session_fact)
         self.__session = Session()
