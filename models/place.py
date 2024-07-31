@@ -65,11 +65,37 @@ class Place(BaseModel, Base):
         backref='place',
         cascade='all, delete-orphan'
     )
+
     amenity_ids = []
+
+    from models.place_aminety import place_amenity
+    amenities = relationship(
+        'Amenity',
+        secondary=place_amenity,
+        viewonly=False
+        )
+
+    @property
+    def amenities(self):
+        """getter for file storage"""
+        from models import storage
+        from models.amenity import Amenity as A
+        data = storage.all(A)
+        return [am for am in data.values() if am.id in self.amenity_ids]
+
+    @amenities.setter
+    def amenities(self, obj=None):
+        """setter for file storage"""
+        if obj.__class__.__name__ == "Amenity":
+            if obj:
+                self.amenity_ids.append(obj.id)
+
     @property
     def reviews(self):
         """getter for reviews"""
         import models
         from models.review import Review
         revs = models.storage.all(Review)
-        return [review for review in revs.values() if review.place_id == self.id]
+        return [
+            review for review in revs.values() if review.place_id == self.id
+            ]
