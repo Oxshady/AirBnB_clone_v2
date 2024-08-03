@@ -20,6 +20,6 @@ sudo echo "$data" | sudo tee "$my_app/index.html" > /dev/null
 sym_lin="/data/web_static/current"
 dir_to_lin="/data/web_static/releases/test/"
 sudo ln -sf "$dir_to_lin" "$sym_lin"
-sudo chown -R "ubuntu":"ubuntu" data/
+sudo chown -R "ubuntu":"ubuntu" /data/
 sudo sed -i '59i\\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n' /etc/nginx/sites-available/default
 sudo service nginx start
