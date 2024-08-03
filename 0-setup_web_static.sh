@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#configuring my web server to deploy my static app
 sudo apt update -y -qq > /dev/null
 sudo apt install nginx -y -qq > /dev/null
 my_app="/data/web_static/releases/test/"
