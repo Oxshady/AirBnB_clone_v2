@@ -6,7 +6,6 @@ if [ ! -d $my_app ]; then
 	sudo mkdir -p $my_app
 fi
 if [ ! -f "$my_app/index.html" ]; then
-	echo "fucl"
 	sudo touch "$my_app/index.html"
 	sudo chmod 755 "$my_app/index.html"
 fi
