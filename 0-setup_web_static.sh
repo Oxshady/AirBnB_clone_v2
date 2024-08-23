@@ -22,6 +22,7 @@ sym_lin="/data/web_static/current"
 dir_to_lin="/data/web_static/releases/test/"
 sudo ln -sf "$dir_to_lin" "$sym_lin"
 sudo chown -R "ubuntu":"ubuntu" /data/
+sudo chmod -R 755 /data
 sudo sed -i '59i\\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n' /etc/nginx/sites-available/default
 sudo service nginx start
 sudo nginx -s reload
