@@ -5,6 +5,7 @@ sudo apt install nginx -y -qq > /dev/null
 my_app="/data/web_static/releases/test/"
 if [ ! -d $my_app ]; then
 	sudo mkdir -p $my_app
+  mkdir /data/web_static/shared/
 fi
 if [ ! -f "$my_app/index.html" ]; then
 	sudo touch "$my_app/index.html"
